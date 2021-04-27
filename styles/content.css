@@ -4,6 +4,13 @@
   }
 }
 
+.image-alt-detector-element {
+  opacity: 1 !important;
+  border: 5px solid #ff0000 !important;
+  animation: blink 0.8s infinite;
+  box-sizing: border-box !important;
+}
+
 .image-alt-detector-bar {
   max-width: 400px;
   position: fixed;
@@ -23,13 +30,25 @@
   width: 13px;
   height: 13px;
   position: absolute;
-  top: 1.3rem;
+  top: 1.2rem;
   left: 1rem;
   border-radius: 50%;
   background-color: #ff0000;
-  animation: blink .8s infinite;
+  animation: blink 0.8s infinite;
 }
 
 .detected-element-text {
   font-size: 16px;
+}
+
+.close-image-alt-detector {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  cursor: pointer;
+}
+
+.close-image-alt-detector img{
+  width: 18px;
+  height: auto;
 }
