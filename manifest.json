@@ -2,9 +2,8 @@
     "name": "Image Alt Detector",
     "description": "A Google Chrome extension that check the alt attribute of images.",
     "manifest_version": 2,
-    "version": "1.0",
+    "version": "1.0.0.0",
     "browser_action": {
-        "default_icon": "./assets/icon.png",
         "default_popup": "./view/popup.html"
     },
     "content_scripts": [
@@ -16,5 +15,10 @@
     ],
     "web_accessible_resources": [
         "assets/*.svg", "assets/*.png"
-      ]
+    ],
+    "icons": {
+        "16": "./assets/icon16.png",
+        "48": "./assets/icon48.png",
+        "128": "./assets/icon128.png"
+    }
 }
