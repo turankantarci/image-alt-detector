@@ -16,6 +16,7 @@
   position: fixed;
   left: 1rem;
   top: 1rem;
+  font-family: sans-serif;
   color: rgb(59, 62, 77);
   background-color: rgb(255, 255, 255);
   box-shadow: rgb(0 0 0 / 50%) 0px 2px 4px 0px;
@@ -31,24 +32,48 @@
   height: 13px;
   position: absolute;
   top: 1.2rem;
-  left: 1rem;
+  left: 0.9rem;
   border-radius: 50%;
   background-color: #ff0000;
   animation: blink 0.8s infinite;
 }
 
-.detected-element-text {
+.image-alt-detector-bar .detected-element-text {
   font-size: 16px;
+  line-height: normal;
 }
 
-.close-image-alt-detector {
+.image-alt-detector-bar .close-image-alt-detector {
   position: absolute;
   right: 3px;
   top: 3px;
   cursor: pointer;
 }
 
-.close-image-alt-detector img{
+.image-alt-detector-bar .close-image-alt-detector img{
   width: 18px;
   height: auto;
+}
+
+.image-alt-detector-bar .src-list {
+  min-height: 150px;
+  width: 100%;
+  font-size: 11px !important;
+  line-height: 15px;
+  white-space: nowrap;
+  resize: none;
+  margin-top: 10px;
+}
+
+.image-alt-detector-bar .copy-sources-button {
+  width: 100%;
+  text-align: center;
+  background-color: #f7f7f7;
+  border: 1px solid #929292;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.image-alt-detector-bar .copy-sources-button:hover {
+  background-color: #e9e9e9;
 }
