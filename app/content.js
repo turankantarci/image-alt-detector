@@ -44,8 +44,8 @@ const app = {
     },
     downloadSources() {
         const element = document.createElement('a');
-        const fileName = `image-alt-detector-${window.location.hostname}-${new Date().valueOf()}.txt`;
-        const data = `data:text/plain;charset=utf-8,--- Image Alt Detector | Results ---\n\n- Page Url:\n${window.location.href}\n\n- Image Sources(${this.detectedElements.length} found):\n${document.querySelector('#sourceList').value}`;
+        const fileName = `image-alt-detector-${window.location.hostname}-${this.getDate(true)}.txt`;
+        const data = `data:text/plain;charset=utf-8,--- Image Alt Detector | Results | ${this.getDate()} ---\n\n- Page Url:\n${window.location.href}\n\n- Image Sources(${this.detectedElements.length} found):\n${document.querySelector('#sourceList').value}`;
         element.setAttribute('href', data);
         element.setAttribute('download', fileName);
         element.style.display = 'none';
@@ -67,6 +67,14 @@ const app = {
         document.body.insertBefore(messageHtml, document.body.firstChild);
 
         setTimeout(() => messageHtml.remove(), 3000);
+    },
+    getDate(getNumberValue) {
+        let date = new Date();
+        if (getNumberValue) {
+            return date.valueOf();
+        } else {
+            return date.toLocaleString().replace(/\./g, '-');
+        }
     },
     events() {
         // Close app
