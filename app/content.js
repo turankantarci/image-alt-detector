@@ -12,31 +12,40 @@ const app = {
             this.checkElement(element);
         });
         if (this.detectedElements.length) {
-            this.createBar();
+            this.createModal();
             this.events();
         } else {
-            this.allIsWell();
+            this.everythingIsFine();
         }
     },
-    createBar() {
+    createModal() {
         let barMain = document.createElement("div");
         barMain.id = 'imageAltDetectorApp';
         barMain.classList.add('image-alt-detector-bar');
         document.body.insertBefore(barMain, document.body.firstChild);
-        barMain.innerHTML = `<div class="detected-element-text">
-                                ${this.detectedElements.length} image ${this.detectedElements.length > 1 ? "elements" : "element"} found there ${this.detectedElements.length > 1 ? "are" : "is"} no "alt" attribute.
-                                <div class="close-image-alt-detector" id="closeImageAltDetector">
-                                    <img src="${chrome.runtime.getURL('assets/close-icon.svg')}" alt="Close" />
-                                </div>
-                            </div>
-                            <textarea class="src-list" id="sourceList">${(this.detectedElements.map(element => element.src)).join('\n')}</textarea>
-                            <div class="img-alt-detector-buttons">
-                                <button type="button" class="copy-sources-button" id="copySources">Copy Image Sources</button>
-                                <button type="button" class="save-button" id="downloadSources" title="Save image sources">
-                                    <img src="${chrome.runtime.getURL('assets/save-icon.svg')}" alt="Save image sources" />
-                                </button>
-                            </div>
-                            `;
+        barMain.innerHTML = this.createModalTmpl();
+    },
+    createModalTmpl() {
+        return `<div class="detected-element-text">
+                    ${this.detectedElements.length} image ${this.detectedElements.length > 1 ? "elements" : "element"} found there ${this.detectedElements.length > 1 ? "are" : "is"} no "alt" attribute.
+                    <div class="close-image-alt-detector" id="closeImageAltDetector">
+                        <img src="${chrome.runtime.getURL('assets/close-icon.svg')}" alt="Close" />
+                    </div>
+                </div>
+                <textarea class="src-list" id="sourceList" readonly>${(this.detectedElements.map(element => element.src)).join('\n')}</textarea>
+                <div class="img-alt-detector-buttons">
+                    <button type="button" class="copy-sources-button" id="copySources">Copy Image Sources</button>
+                    <button type="button" class="save-button" id="downloadSources" title="Save image sources">
+                        <img src="${chrome.runtime.getURL('assets/save-icon.svg')}" alt="Save image sources" />
+                    </button>
+                </div>
+                `
+    },
+    isModalExist() {
+        var modalElement = document.querySelector('#imageAltDetectorApp');
+        if(modalElement) {
+            return true;
+        }
     },
     copySources() {
         document.querySelector('#sourceList').select();
@@ -44,8 +53,9 @@ const app = {
     },
     downloadSources() {
         const element = document.createElement('a');
-        const fileName = `image-alt-detector-${window.location.hostname}-${this.getDate(true)}.txt`;
-        const data = `data:text/plain;charset=utf-8,--- Image Alt Detector | Results | ${this.getDate()} ---\n\n- Page Url:\n${window.location.href}\n\n- Image Sources(${this.detectedElements.length} found):\n${document.querySelector('#sourceList').value}`;
+        const fileName = `image-alt-detector-${window.location.hostname}-${this.helpers.getDate(true)}.txt`;
+        const url = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search;
+        const data = `data:text/plain;charset=utf-8,--- Image Alt Detector | Results | ${this.helpers.getDate()} ---\n\n- Page Url:\n${url}\n\n- Image Sources(${this.detectedElements.length} found):\n${document.querySelector('#sourceList').value}`;
         element.setAttribute('href', data);
         element.setAttribute('download', fileName);
         element.style.display = 'none';
@@ -60,21 +70,13 @@ const app = {
         document.querySelector('#imageAltDetectorApp').remove();
         this.detectedElements = [];
     },
-    allIsWell() {
+    everythingIsFine() {
         let messageHtml = document.createElement('div');
-        messageHtml.classList.add('image-alt-detector', 'all-is-well-message');
-        messageHtml.innerHTML = 'All is well! :)';
+        messageHtml.classList.add('image-alt-detector', 'fine-message');
+        messageHtml.innerHTML = `Everything's fine! :)`;
         document.body.insertBefore(messageHtml, document.body.firstChild);
 
         setTimeout(() => messageHtml.remove(), 3000);
-    },
-    getDate(getNumberValue) {
-        let date = new Date();
-        if (getNumberValue) {
-            return date.valueOf();
-        } else {
-            return date.toLocaleString().replace(/\./g, '-');
-        }
     },
     events() {
         // Close app
@@ -92,7 +94,20 @@ const app = {
             this.downloadSources();
         });
     },
+    helpers: {
+        getDate(getNumberValue) {
+            let date = new Date();
+            if (getNumberValue) {
+                return date.valueOf();
+            } else {
+                return date.toLocaleString().replace(/\./g, '-');
+            }
+        },
+    },
     init() {
+        if(this.isModalExist()) {
+            this.closeApp();
+        }
         this.detectAlt();
     }
 }
