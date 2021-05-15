@@ -42,10 +42,7 @@ const app = {
                 `
     },
     isModalExist() {
-        var modalElement = document.querySelector('#imageAltDetectorApp');
-        if(modalElement) {
-            return true;
-        }
+        return document.querySelector('#imageAltDetectorApp') && true;
     },
     copySources() {
         document.querySelector('#sourceList').select();
@@ -75,7 +72,6 @@ const app = {
         messageHtml.classList.add('image-alt-detector', 'fine-message');
         messageHtml.innerHTML = `Everything's fine! :)`;
         document.body.insertBefore(messageHtml, document.body.firstChild);
-
         setTimeout(() => messageHtml.remove(), 3000);
     },
     events() {
@@ -97,17 +93,11 @@ const app = {
     helpers: {
         getDate(getNumberValue) {
             let date = new Date();
-            if (getNumberValue) {
-                return date.valueOf();
-            } else {
-                return date.toLocaleString().replace(/\./g, '-');
-            }
+            return getNumberValue ? date.valueOf() : date.toLocaleString().replace(/\./g, '-');
         },
     },
     init() {
-        if(this.isModalExist()) {
-            this.closeApp();
-        }
+        this.isModalExist() && this.closeApp();
         this.detectAlt();
     }
 }
