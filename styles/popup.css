@@ -1,0 +1,28 @@
+.app-title {
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.detect-button {
+  padding: 15px;
+  white-space: nowrap;
+}
+
+.informational-links-title {
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.alt-attribute-info-link {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #141414;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+.alt-attribute-info-link > img{
+  margin-left: 5px;
+}
